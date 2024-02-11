@@ -75,7 +75,7 @@ return {
     local compile_command = ""
     
 
-    local file_path = vim.fn.expand('%:p:h') .. '/run.py'
+    local file_path = vim.fn.getcwd() .. '/run.py'
 
     if vim.fn.filereadable(file_path) ~= 1 then
         -- Prompt the user for the filename
@@ -90,7 +90,7 @@ return {
         end
     end
     -- Search for a virtual environment and activate it
-    local venv_activate = vim.fn.findfile('activate', vim.fn.expand('%:p:h'))
+    local venv_activate = vim.fn.findfile('activate', vim.fn.getcwd())
     if venv_activate ~= '' then
         compile_command = 'source ' .. venv_activate .. ' && python3 ' .. file_path
     else
