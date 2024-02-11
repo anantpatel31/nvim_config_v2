@@ -101,8 +101,8 @@ return {
         compile_command = 'python3 ' .. file_path
     end
     
-    -- Open a vertical split and run the terminal in the directory of the current file
-    vim.cmd("vsplit | vertical resize -20 | cd " .. vim.fn.fnameescape(vim.fn.fnamemodify(current_file, ":h")))
+    -- Open a vertical split and run the terminal in the current working directory
+    vim.cmd("vsplit | vertical resize -20 | tcd " .. vim.fn.fnameescape(vim.fn.getcwd()))
     
     vim.cmd("term " .. compile_command)
   end,
