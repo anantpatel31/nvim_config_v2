@@ -54,15 +54,19 @@ return {
     vim.cmd("vsplit | vertical resize -20 | cd " .. vim.fn.fnameescape(vim.fn.fnamemodify(current_file, ":h")))
     
     -- For C/C++ files, compile and run; for Python files, run directly
+    local input_file = vim.fn.expand('%:p:h') .. '/input.txt'
     if file_extension == "cpp" or file_extension == "c" then
-      local input_file = vim.fn.expand('%:p:h') .. '/input.txt'
       if vim.fn.filereadable(input_file) == 1 and vim.fn.getfsize(input_file) > 0 then
         vim.cmd("term " .. compile_command .. " && " .. root_name .. " <" .. input_file .. " && echo '\\n\\npicked input from input.txt'")
       else
         vim.cmd("term " .. compile_command .. " && " .. root_name)
       end
     elseif file_extension == "py" then
-      vim.cmd("term " .. compile_command)
+      if vim.fn.filereadable(input_file) == 1 and vim.fn.getfsize(input_file) > 0 then
+        vim.cmd("term " .. compile_command .. " <" .. input_file .. " && echo '\\n\\npicked input from input.txt'")
+      else
+        vim.cmd("term " .. compile_command)
+      end
     end
   end,
   desc = "Run C++ or Python file",
